@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="FlaUI.UIA3" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Deskbridge.Core\Deskbridge.Core.csproj" />
+    <ProjectReference Include="..\Deskbridge.Engines.Os\Deskbridge.Engines.Os.csproj" />
+  </ItemGroup>
+</Project>

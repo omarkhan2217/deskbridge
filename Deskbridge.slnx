@@ -2,6 +2,7 @@
   <Folder Name="/src/">
     <Project Path="src/Deskbridge.Core/Deskbridge.Core.csproj" />
     <Project Path="src/Deskbridge.Engines.Os/Deskbridge.Engines.Os.csproj" />
+    <Project Path="src/Deskbridge.Engines.Uia/Deskbridge.Engines.Uia.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/Deskbridge.E2E.Target/Deskbridge.E2E.Target.csproj" />
