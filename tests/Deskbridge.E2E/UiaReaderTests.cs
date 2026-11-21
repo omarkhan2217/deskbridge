@@ -57,6 +57,15 @@ public sealed class UiaReaderTests : IDisposable
     }
 
     [Fact]
+    public async Task Hung_window_gives_a_plain_timeout_error()
+    {
+        using var app = TargetApp.Start(Title("hang"), "--text", "x", "--hang-ms", "20000");
+        await Task.Delay(1_000); // the target blocks its UI thread 500 ms after showing
+        var ex = await Assert.ThrowsAsync<UiaTimeoutException>(() => Reader.ReadTextAsync(app.Handle, "Notes"));
+        Assert.Contains("did not answer", ex.Message);
+    }
+
+    [Fact]
     public async Task Closed_window_reports_window_gone()
     {
         var app = TargetApp.Start(Title("gone"), "--text", "x");

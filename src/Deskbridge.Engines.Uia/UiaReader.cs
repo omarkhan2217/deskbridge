@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using Deskbridge.Core;
 using Deskbridge.Engines.Os;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
@@ -34,6 +35,16 @@ public sealed class UiaReader(UiaWorker worker)
         catch (COMException ex) when (ex.HResult == ElementNotAvailable || !WindowHandles.IsAlive(window))
         {
             throw new WindowGoneException();
+        }
+        catch (TimeoutException)
+        {
+            // UI Automation's own TransactionTimeout fired first (FlaUI wraps UIA_E_TIMEOUT this way).
+            throw new UiaTimeoutException(worker.Options.TransactionTimeout);
+        }
+        catch (COMException ex)
+        {
+            throw new DeskbridgeException(
+                $"The app's accessibility interface returned an error (0x{ex.HResult:X8}). Try again; if it repeats, the app may not support reading this control.");
         }
     }
 

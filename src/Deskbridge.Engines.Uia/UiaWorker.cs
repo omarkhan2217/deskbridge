@@ -21,6 +21,8 @@ public sealed class UiaWorker : IDisposable
         current = new WorkerThread(this.options);
     }
 
+    public UiaWorkerOptions Options => options;
+
     public int ThreadId
     {
         get
