@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <AssemblyName>deskbridge-broker</AssemblyName>
+    <RootNamespace>Deskbridge.Broker</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Deskbridge.Mcp\Deskbridge.Mcp.csproj" />
+  </ItemGroup>
+</Project>
