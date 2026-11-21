@@ -1,0 +1,14 @@
+# Build output
+bin/
+obj/
+artifacts/
+
+# Editors and tools
+.vs/
+*.user
+*.suo
+.idea/
+
+# Test results
+TestResults/
+*.trx

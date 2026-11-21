@@ -6,6 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="xunit.v3" />
+    <PackageReference Include="ModelContextProtocol.Core" />
   </ItemGroup>
   <ItemGroup>
     <Using Include="Xunit" />
@@ -14,5 +15,6 @@
     <ProjectReference Include="..\Deskbridge.E2E.Target\Deskbridge.E2E.Target.csproj" />
     <ProjectReference Include="..\..\src\Deskbridge.Engines.Os\Deskbridge.Engines.Os.csproj" />
     <ProjectReference Include="..\..\src\Deskbridge.Engines.Uia\Deskbridge.Engines.Uia.csproj" />
+    <ProjectReference Include="..\..\src\Deskbridge.Broker\Deskbridge.Broker.csproj" />
   </ItemGroup>
 </Project>

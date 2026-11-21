@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>deskbridge</AssemblyName>
+    <RootNamespace>Deskbridge.Relay</RootNamespace>
+    <PublishAot>true</PublishAot>
+    <IsAotCompatible>true</IsAotCompatible>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="Deskbridge.Tests" />
+    <ProjectReference Include="..\Deskbridge.Core\Deskbridge.Core.csproj" />
+  </ItemGroup>
+</Project>

@@ -16,5 +16,6 @@
     <ProjectReference Include="..\..\src\Deskbridge.Engines.Uia\Deskbridge.Engines.Uia.csproj" />
     <ProjectReference Include="..\..\src\Deskbridge.Mcp\Deskbridge.Mcp.csproj" />
     <ProjectReference Include="..\..\src\Deskbridge.Broker\Deskbridge.Broker.csproj" />
+    <ProjectReference Include="..\..\src\Deskbridge.Relay\Deskbridge.Relay.csproj" />
   </ItemGroup>
 </Project>

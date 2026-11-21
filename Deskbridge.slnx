@@ -5,6 +5,7 @@
     <Project Path="src/Deskbridge.Engines.Os/Deskbridge.Engines.Os.csproj" />
     <Project Path="src/Deskbridge.Engines.Uia/Deskbridge.Engines.Uia.csproj" />
     <Project Path="src/Deskbridge.Mcp/Deskbridge.Mcp.csproj" />
+    <Project Path="src/Deskbridge.Relay/Deskbridge.Relay.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/Deskbridge.E2E.Target/Deskbridge.E2E.Target.csproj" />
