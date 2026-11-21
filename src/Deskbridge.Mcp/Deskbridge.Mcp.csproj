@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="ModelContextProtocol.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Deskbridge.Core\Deskbridge.Core.csproj" />
+    <ProjectReference Include="..\Deskbridge.Engines.Os\Deskbridge.Engines.Os.csproj" />
+    <ProjectReference Include="..\Deskbridge.Engines.Uia\Deskbridge.Engines.Uia.csproj" />
+  </ItemGroup>
+</Project>

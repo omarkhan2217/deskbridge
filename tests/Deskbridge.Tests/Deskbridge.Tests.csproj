@@ -14,5 +14,6 @@
     <ProjectReference Include="..\..\src\Deskbridge.Core\Deskbridge.Core.csproj" />
     <ProjectReference Include="..\..\src\Deskbridge.Engines.Os\Deskbridge.Engines.Os.csproj" />
     <ProjectReference Include="..\..\src\Deskbridge.Engines.Uia\Deskbridge.Engines.Uia.csproj" />
+    <ProjectReference Include="..\..\src\Deskbridge.Mcp\Deskbridge.Mcp.csproj" />
   </ItemGroup>
 </Project>
