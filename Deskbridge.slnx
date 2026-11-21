@@ -3,6 +3,8 @@
     <Project Path="src/Deskbridge.Core/Deskbridge.Core.csproj" />
   </Folder>
   <Folder Name="/tests/">
+    <Project Path="tests/Deskbridge.E2E.Target/Deskbridge.E2E.Target.csproj" />
+    <Project Path="tests/Deskbridge.E2E/Deskbridge.E2E.csproj" />
     <Project Path="tests/Deskbridge.Tests/Deskbridge.Tests.csproj" />
   </Folder>
 </Solution>
