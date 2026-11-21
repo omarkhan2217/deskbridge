@@ -12,5 +12,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Deskbridge.Core\Deskbridge.Core.csproj" />
+    <ProjectReference Include="..\..\src\Deskbridge.Engines.Os\Deskbridge.Engines.Os.csproj" />
   </ItemGroup>
 </Project>
