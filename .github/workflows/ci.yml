@@ -1,0 +1,44 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: build and unit tests (${{ matrix.arch }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: x64
+            runner: windows-latest
+            rid: win-x64
+          - arch: arm64
+            runner: windows-11-arm
+            rid: win-arm64
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Build
+        run: dotnet build Deskbridge.slnx -c Release -warnaserror
+
+      - name: Unit tests
+        run: dotnet test --project tests/Deskbridge.Tests -c Release --no-build
+
+      - name: Publish the relay with Native AOT
+        shell: pwsh
+        run: |
+          $env:PATH += ";${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer"
+          dotnet publish src/Deskbridge.Relay -c Release -r ${{ matrix.rid }} -o artifacts/relay
+          $size = (Get-Item artifacts/relay/deskbridge.exe).Length
+          "Relay size: {0:N0} bytes" -f $size
+          if ($size -gt 10MB) { throw "The relay is larger than 10 MB." }
