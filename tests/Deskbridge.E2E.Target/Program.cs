@@ -1,8 +1,10 @@
 namespace Deskbridge.E2E.Target;
 
 /// <summary>
-/// A window for end-to-end tests that opens without taking focus and holds known text.
-/// Arguments: --title t (required), --text t, --password, --big n, --hang-ms n, --hidden.
+/// A window for end-to-end tests that opens without taking focus and holds known controls.
+/// Arguments: --title t (required), --text t, --password, --big n, --hang-ms n, --hidden,
+/// --native-button (adds a legacy Win32 button with no UI Automation support),
+/// --rename-after-ms n (renames the Save button to "Save As" after n ms).
 /// </summary>
 static class Program
 {
@@ -24,7 +26,7 @@ static class Program
     }
 }
 
-sealed record TargetOptions(string Title, string Text, bool Password, int Big, int HangMs, bool Hidden)
+sealed record TargetOptions(string Title, string Text, bool Password, int Big, int HangMs, bool Hidden, bool NativeButton, int RenameAfterMs)
 {
     public static TargetOptions Parse(string[] args)
     {
@@ -40,6 +42,8 @@ sealed record TargetOptions(string Title, string Text, bool Password, int Big, i
             args.Contains("--password"),
             int.Parse(Value("--big") ?? "0"),
             int.Parse(Value("--hang-ms") ?? "0"),
-            args.Contains("--hidden"));
+            args.Contains("--hidden"),
+            args.Contains("--native-button"),
+            int.Parse(Value("--rename-after-ms") ?? "0"));
     }
 }

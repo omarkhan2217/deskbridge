@@ -34,5 +34,11 @@ public static class ToolJson
         {
             return Error(ex.Message);
         }
+        catch (Exception ex) when (ex is not OperationCanceledException)
+        {
+            // Anything else is a Deskbridge bug or an app misbehaving: say what happened instead of
+            // the SDK's generic message, so the agent and the user can act on it.
+            return Error($"Deskbridge hit an unexpected problem ({ex.GetType().Name}): {ex.Message}");
+        }
     }
 }

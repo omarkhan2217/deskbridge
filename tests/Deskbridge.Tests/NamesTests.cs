@@ -22,6 +22,27 @@ public class NamesTests
         Assert.Throws<ArgumentException>(() => Names.PipeName("S-1-5-21-1", suffix));
 
     [Fact]
+    public void Config_and_logs_follow_the_override()
+    {
+        Assert.Equal(@"C:\t\db", Names.ConfigDirectory(@"C:\t\db"));
+        Assert.Equal(@"C:\t\db\logs", Names.LogDirectory(@"C:\t\db"));
+    }
+
+    [Fact]
+    public void Without_override_config_is_in_appdata_and_logs_in_localappdata()
+    {
+        Assert.Equal(
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Deskbridge"),
+            Names.ConfigDirectory(null));
+        Assert.Equal(
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Deskbridge", "logs"),
+            Names.LogDirectory(null));
+    }
+
+    [Fact]
+    public void Run_value_name_is_the_product() => Assert.Equal("Deskbridge", Names.RunValueName);
+
+    [Fact]
     public void Current_user_sid_is_a_windows_sid() =>
         Assert.StartsWith("S-1-5-", Names.CurrentUserSid());
 }

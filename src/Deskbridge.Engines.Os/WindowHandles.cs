@@ -27,4 +27,6 @@ public static class WindowHandles
     }
 
     public static bool IsAlive(nint handle) => handle != 0 && User32.IsWindow(handle);
+
+    public static bool IsMinimized(nint handle) => User32.IsIconic(handle);
 }

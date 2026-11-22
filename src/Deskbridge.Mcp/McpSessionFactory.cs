@@ -1,5 +1,6 @@
 using System.Reflection;
 using Deskbridge.Core;
+using Deskbridge.Core.Clients;
 using Deskbridge.Core.Wire;
 using Microsoft.Extensions.Logging;
 using ModelContextProtocol.Protocol;
@@ -22,7 +23,7 @@ public static class McpSessionFactory
     {
         ArgumentNullException.ThrowIfNull(hello);
         var tools = new McpServerPrimitiveCollection<McpServerTool>();
-        foreach (var tool in ToolCatalog.Create(services))
+        foreach (var tool in ToolCatalog.Create(services, new ClientContext(hello)))
         {
             tools.Add(tool);
         }

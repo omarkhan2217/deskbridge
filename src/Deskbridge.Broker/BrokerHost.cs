@@ -11,7 +11,7 @@ namespace Deskbridge.Broker;
 /// No polling: it waits on the pipe, and its only timer is the idle-exit timer, which runs
 /// only while no client is connected.
 /// </summary>
-public sealed class BrokerHost(BrokerOptions options, ToolServices services, ILoggerFactory? loggerFactory = null) : IAsyncDisposable
+public sealed class BrokerHost(BrokerOptions options, ToolServices services, ILoggerFactory? loggerFactory = null, Func<bool>? keepRunning = null) : IAsyncDisposable
 {
     readonly ConcurrentDictionary<int, Task> sessions = new();
     readonly TaskCompletionSource idleExpired = new(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -133,10 +133,25 @@ public sealed class BrokerHost(BrokerOptions options, ToolServices services, ILo
         Task.Delay(options.IdleExit, idleTimer.Token).ContinueWith(
             t =>
             {
-                if (!t.IsCanceled)
+                if (t.IsCanceled)
                 {
-                    idleExpired.TrySetResult();
+                    return;
                 }
+
+                if (keepRunning?.Invoke() == true)
+                {
+                    lock (gate)
+                    {
+                        if (active == 0)
+                        {
+                            StartIdleTimer(); // "keep running" is on: check again after another idle period
+                        }
+                    }
+
+                    return;
+                }
+
+                idleExpired.TrySetResult();
             },
             CancellationToken.None,
             TaskContinuationOptions.ExecuteSynchronously,

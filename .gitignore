@@ -12,3 +12,9 @@ artifacts/
 # Test results
 TestResults/
 *.trx
+
+# Local tool state
+.superpowers/
+
+# The owner's first draft of the plan, kept out of the repo
+/*.pdf

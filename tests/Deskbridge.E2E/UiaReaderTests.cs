@@ -33,6 +33,15 @@ public sealed class UiaReaderTests : IDisposable
     }
 
     [Fact]
+    public async Task A_checkbox_reads_with_its_state()
+    {
+        using var app = TargetApp.Start(Title("state"), "--text", "x");
+        var text = await Reader.ReadTextAsync(app.Handle, "BoldCheck");
+        Assert.Equal("off", text.State);
+        Assert.Null((await Reader.ReadTextAsync(app.Handle, "NotesBox")).State);
+    }
+
+    [Fact]
     public async Task Long_text_is_cut_and_marked()
     {
         using var app = TargetApp.Start(Title("big"), "--big", "100000");

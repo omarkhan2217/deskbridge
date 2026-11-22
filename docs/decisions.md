@@ -36,15 +36,27 @@ Every decision about Deskbridge, oldest first. An entry is never deleted or rewr
 | D22 | 2026-11-22 | Nook starts on classic tools through its connector catalogue; Code Mode for Nook comes later | accepted | Claude, approved by owner |
 | D23 | 2026-11-22 | Windows 10 stays in the test matrix | accepted | Claude, approved by owner |
 | D24 | 2026-11-22 | Plan every phase before building; building starts with Phase 0 once the plans exist | accepted | owner |
-| D25 | 2026-11-22 | Phase plans live in `docs/phases/`; Phase 0 step by step, later phases task by task, refined before each starts | proposed | Claude |
-| D26 | 2026-11-22 | One branch per phase; no commits until the owner reviews at the phase gate | proposed | Claude |
-| D27 | 2026-11-22 | Create each project when its phase needs it; `Deskbridge.Core` stays Native AOT compatible | proposed | Claude |
-| D28 | 2026-11-22 | Broker idle exit and test isolation (pipe suffix) are built in Phase 0 | proposed | Claude |
-| D29 | 2026-11-22 | End-to-end tests use a purpose-built target app plus Notepad and Calculator | proposed | Claude |
-| D30 | 2026-11-22 | VirtualBox with Microsoft evaluation images replaces Windows Sandbox; Arm64 runs on GitHub's Arm64 runners | proposed | Claude |
-| D31 | 2026-11-22 | Long-running tools use start, then wait | proposed | Claude |
-| D32 | 2026-11-22 | The OAuth callback listens on 127.0.0.1 only during sign-in | proposed | Claude |
-| D33 | 2026-11-22 | The WebSocket transport waits until an adapter needs it | proposed | Claude |
+| D25 | 2026-11-22 | Phase plans live in `docs/phases/`; Phase 0 step by step, later phases task by task, refined before each starts | accepted | Claude, approved by owner |
+| D26 | 2026-11-22 | One branch per phase; no commits until the owner reviews at the phase gate | accepted | Claude, approved by owner |
+| D27 | 2026-11-22 | Create each project when its phase needs it; `Deskbridge.Core` stays Native AOT compatible | accepted | Claude, approved by owner |
+| D28 | 2026-11-22 | Broker idle exit and test isolation (pipe suffix) are built in Phase 0 | accepted | Claude, approved by owner |
+| D29 | 2026-11-22 | End-to-end tests use a purpose-built target app plus Notepad and Calculator | accepted | Claude, approved by owner |
+| D30 | 2026-11-22 | VirtualBox with Microsoft evaluation images replaces Windows Sandbox; Arm64 runs on GitHub's Arm64 runners | accepted | Claude, approved by owner |
+| D31 | 2026-11-22 | Long-running tools use start, then wait | accepted | Claude, approved by owner |
+| D32 | 2026-11-22 | The OAuth callback listens on 127.0.0.1 only during sign-in | accepted | Claude, approved by owner |
+| D33 | 2026-11-22 | The WebSocket transport waits until an adapter needs it | accepted | Claude, approved by owner |
+| D34 | 2026-11-22 | Publish at github.com/alikhan866/deskbridge, public, after moving Nook-private details out | accepted | owner |
+| D35 | 2026-11-22 | Commits use the GitHub noreply address | accepted | owner |
+| D36 | 2026-11-22 | "Allow and remember" lasts until the user revokes it | accepted | owner |
+| D37 | 2026-11-22 | The Phase 1 gate toggles "Show seconds in system tray clock" | accepted | owner |
+| D38 | 2026-11-22 | Phase 1 fixes cold start and measures the relay by private bytes | proposed | Claude |
+| D39 | 2026-11-22 | Launch tools try not to take focus, report whether they did, and the confirmation says so | proposed | Claude |
+| D40 | 2026-11-22 | Tests use their own config and log folder | proposed | Claude |
+| D41 | 2026-11-22 | README, LICENSE and the code signing policy arrive with Phase 1; the SignPath application follows | proposed | Claude |
+| D42 | 2026-11-22 | The gate finds "Show seconds" under Date & time on current Windows 11 builds (supersedes D37's location) | proposed | Claude |
+| D43 | 2026-11-22 | UI actions check the control can do the action before asking; window messages go only to buttons and edit boxes | proposed | Claude |
+| D44 | 2026-11-22 | `ui_tree` nodes name their parent | proposed | Claude |
+| D45 | 2026-11-22 | After the real agent run: `ui_find` matches part of a name, `ui_read` reports a switch's state, and a switch already as asked is not asked about | proposed | Claude |
 
 ## Entries
 
@@ -265,7 +277,7 @@ Every decision about Deskbridge, oldest first. An entry is never deleted or rewr
 ### D25. Where phase plans live and how detailed they are
 
 - **Date:** 2026-11-22
-- **Status:** proposed
+- **Status:** accepted (owner approved 2026-11-22 with the Phase 0 branch)
 - **By:** Claude
 - **Decision:** `docs/phases/README.md` is the roadmap. Each phase has its own file (`phase-0-setup.md` to `phase-6-release.md`). Phase 0 is written step by step, ready to build. Phases 1 to 6 are written task by task (files, interfaces, tests, gate) and are refined to step level, with an artifact, just before each phase starts.
 - **Reason:** Later phases build on interfaces and measurements that Phase 0 produces. Writing their code-level steps now would mean rewriting them after Phase 0.
@@ -273,7 +285,7 @@ Every decision about Deskbridge, oldest first. An entry is never deleted or rewr
 ### D26. Branches and commits
 
 - **Date:** 2026-11-22
-- **Status:** proposed
+- **Status:** accepted (owner approved 2026-11-22 with the Phase 0 branch)
 - **By:** Claude
 - **Decision:** Each phase is built on its own branch (`phase-0-setup`, `phase-1-core`, and so on). Nothing is committed during the phase. At the gate the owner reviews the work, then it is committed as one commit per task and merged.
 - **Reason:** `CLAUDE.md` rule 5 forbids commits before review, and per-task commits keep the history readable.
@@ -281,14 +293,14 @@ Every decision about Deskbridge, oldest first. An entry is never deleted or rewr
 ### D27. Projects appear when needed; Core stays AOT compatible
 
 - **Date:** 2026-11-22
-- **Status:** proposed
+- **Status:** accepted (owner approved 2026-11-22 with the Phase 0 branch)
 - **By:** Claude
 - **Decision:** A project is created in the phase that first puts code in it; there are no empty shells. `Deskbridge.Core` sets `IsAotCompatible` and must never take a dependency that breaks Native AOT, because the relay compiles it ahead of time.
 
 ### D28. Idle exit and test isolation in Phase 0
 
 - **Date:** 2026-11-22
-- **Status:** proposed
+- **Status:** accepted (owner approved 2026-11-22 with the Phase 0 branch)
 - **By:** Claude
 - **Decision:** The broker exits 30 minutes after its last client disconnects (one timer, started only when the count reaches zero). The environment variable `DESKBRIDGE_PIPE_SUFFIX` adds a suffix to the pipe and mutex names, and `DESKBRIDGE_IDLE_EXIT_MS` overrides the idle time, so tests run their own broker and clean it up.
 - **Reason:** Without both, end-to-end tests would share or leave behind the user's real broker.
@@ -296,7 +308,7 @@ Every decision about Deskbridge, oldest first. An entry is never deleted or rewr
 ### D29. What the end-to-end tests drive
 
 - **Date:** 2026-11-22
-- **Status:** proposed
+- **Status:** accepted (owner approved 2026-11-22 with the Phase 0 branch)
 - **By:** Claude
 - **Decision:** A purpose-built WinForms app (`Deskbridge.E2E.Target`) opens without taking focus and holds known text, so "read a window that is not in front" is deterministic. Notepad and Calculator are also tested, minimized with `SW_SHOWMINNOACTIVE` before the hands-off snapshot.
 - **Reason:** This PC's foreground lock timeout is at its maximum (measured on this PC), so a test cannot reliably put another window in front once Notepad has taken focus.
@@ -304,7 +316,7 @@ Every decision about Deskbridge, oldest first. An entry is never deleted or rewr
 ### D30. Test machines
 
 - **Date:** 2026-11-22
-- **Status:** proposed
+- **Status:** accepted (owner approved 2026-11-22 with the Phase 0 branch)
 - **By:** Claude
 - **Decision:** Clean-install and Windows 10 tests run in VirtualBox (already installed) with Microsoft's evaluation images. Arm64 builds and unit tests run on GitHub's Windows Arm64 runners; Arm64 end-to-end tests need an Arm64 device or a rented Arm64 VM, decided in Phase 5.
 - **Reason:** Windows Sandbox needs Windows Pro or Enterprise, and this PC runs Windows 11 Home.
@@ -313,7 +325,7 @@ Every decision about Deskbridge, oldest first. An entry is never deleted or rewr
 ### D31. Long-running tools use start, then wait
 
 - **Date:** 2026-11-22
-- **Status:** proposed
+- **Status:** accepted (owner approved 2026-11-22 with the Phase 0 branch)
 - **By:** Claude
 - **Decision:** A tool that can run for minutes (`claude_code_start`, `claude_code_continue`, `project_check_run`) returns a run ID at once. `run_wait(run_id, timeout_s)` returns progress or the final result, waiting at most 120 s per call.
 - **Reason:** MCP clients time out long tool calls, and a Claude Code run can take many minutes.
@@ -321,7 +333,7 @@ Every decision about Deskbridge, oldest first. An entry is never deleted or rewr
 ### D32. The OAuth callback listener
 
 - **Date:** 2026-11-22
-- **Status:** proposed
+- **Status:** accepted (owner approved 2026-11-22 with the Phase 0 branch)
 - **By:** Claude
 - **Decision:** During a remote sign-in only, Deskbridge listens on `127.0.0.1` on a random port for the browser's redirect, then closes the listener. This is the one exception to "no TCP listener".
 - **Reason:** Native-app OAuth (RFC 8252) needs a loopback redirect.
@@ -329,7 +341,105 @@ Every decision about Deskbridge, oldest first. An entry is never deleted or rewr
 ### D33. WebSocket transport waits
 
 - **Date:** 2026-11-22
-- **Status:** proposed
+- **Status:** accepted (owner approved 2026-11-22 with the Phase 0 branch)
 - **By:** Claude
 - **Decision:** The manifest format reserves the `websocket` transport, but it is built with the first adapter that needs it (OBS, after v1).
 - **Reason:** No v1 adapter uses it.
+
+### D34. Publish the repo, after moving Nook-private details out
+
+- **Date:** 2026-11-22
+- **Status:** accepted
+- **By:** owner
+- **Decision:** The repo lives at `github.com/alikhan866/deskbridge` and is public, which SignPath needs. The name stays "Deskbridge" for now. Before the first push, details of Nook's private code (file paths, internal decision numbers, roadmap items) and local paths were moved into a private note outside the repo, and the unpushed history was rewritten so they never appear in it.
+- **Note:** The wording of D3, D14, D18, D19, D22 and D29 changed in that rewrite. The decisions themselves did not.
+- **Rule added:** `CLAUDE.md` rule 6: this repo is public, so Nook-private details, local paths and personal information stay out of it.
+
+### D35. Commit email
+
+- **Date:** 2026-11-22
+- **Status:** accepted
+- **By:** owner
+- **Decision:** Commits use the GitHub noreply address of `alikhan866`, set in this repo's git config. The 14 commits made before publishing were rewritten to use it.
+
+### D36. "Allow and remember" lasts until revoked
+
+- **Date:** 2026-11-22
+- **Status:** accepted
+- **By:** owner
+- **Options:** 30 minutes; rest of the day; until revoked; never remember.
+- **Decision:** After "Allow and remember", Deskbridge stops asking about non-destructive changes for that client in that app until the user removes the grant in the settings window. Destructive actions ask every time regardless.
+
+### D37. The Phase 1 gate setting
+
+- **Date:** 2026-11-22
+- **Status:** accepted
+- **By:** owner
+- **Decision:** The gate toggles "Show seconds in system tray clock" (Settings > Personalization > Taskbar > Taskbar behaviors) and puts it back.
+
+### D38. Cold start and the relay memory measure
+
+- **Date:** 2026-11-22
+- **Status:** proposed
+- **By:** Claude
+- **Decision:** Phase 1 publishes the broker ReadyToRun and creates the UI Automation worker on first use, then re-measures cold start. The relay's memory budget (under 10 MB) is checked against private bytes; the working set is still reported.
+- **Reason:** Phase 0 measured cold starts of 0.9 to 2.2 s, and the relay's 9.9 MB working set is mostly shared Windows code (its private memory is 3.2 MB).
+
+### D39. Launch tools and focus
+
+- **Date:** 2026-11-22
+- **Status:** proposed
+- **By:** Claude
+- **Decision:** `apps_launch` and `settings_open` start the app without activation (`SW_SHOWNOACTIVATE`) and from the broker, which never holds the foreground. Some apps (Settings and other Store apps) come to the front anyway, so their confirmation says the window may come to the front, and the result reports whether it did.
+- **Reason:** Opening an app is something the user asked for, but principle 1 says focus is never taken without asking.
+
+### D40. Test isolation for config and logs
+
+- **Date:** 2026-11-22
+- **Status:** proposed
+- **By:** Claude
+- **Decision:** `DESKBRIDGE_CONFIG_DIR` points the broker at a different folder for `config.json` and logs. Tests always set it, so they never read or change the user's real permissions.
+
+### D41. Public repo files and SignPath
+
+- **Date:** 2026-11-22
+- **Status:** proposed
+- **By:** Claude
+- **Decision:** `README.md`, `LICENSE` (MIT, "The Deskbridge authors") and `docs/code-signing-policy.md` are Phase 1 Task 0. They are committed with Phase 1 after the owner's review, and the owner applies to SignPath Foundation then.
+- **Reason:** `CLAUDE.md` rule 5 keeps unreviewed work out of commits. SignPath is needed by Phase 6, so applying after Phase 1 still leaves months for approval.
+
+### D42. Where the gate finds the clock seconds switch
+
+- **Date:** 2026-11-22
+- **Status:** proposed
+- **By:** Claude
+- **Decision:** The Phase 1 gate opens `ms-settings:dateandtime` and turns on "Show seconds in system tray clock" under Show time and date in the System tray > Show more settings. The setting is the one the owner chose in D37; only its place in Settings changes. This entry supersedes the location given in D37.
+- **Options considered:** keep the Taskbar behaviors page (the switch is no longer there on build 26200); try both pages (two Settings navigations during setup for no gain on the gate PC).
+- **Reason:** On Windows 11 build 26200 the Taskbar page links to Date & time for clock settings, and the switch lives there.
+
+### D43. UI actions check before asking, and window messages are for buttons and edit boxes
+
+- **Date:** 2026-11-22
+- **Status:** proposed
+- **By:** Claude
+- **Decision:** `ui_press`, `ui_toggle`, `ui_select` and `ui_set_text` first check what the control supports. If it cannot do the action, Deskbridge refuses with "There is no way to press this control without the mouse, so Deskbridge will not." and asks the user nothing. The window-message rung (`BM_CLICK`, `WM_SETTEXT`) is used only for a control with its own window whose class contains Button or Edit, or whose UI Automation type is Button or Edit.
+- **Options considered:** send window messages to any control with its own window (a text label counted as pressable, so the user was asked to approve a press that could not happen); ask first and refuse after (the user approves something that then fails).
+- **Reason:** Found in the gate run: Deskbridge asked to press a text label. Principle 2 means the user is asked only about actions that can happen.
+
+### D44. Tree listings name each control's parent
+
+- **Date:** 2026-11-22
+- **Status:** proposed
+- **By:** Claude
+- **Decision:** Each `ui_tree` node carries `parent`, the element_id of the control that holds it (null at the top). The listing stays outer controls first, so a listing cut short by `max_nodes` keeps the outer ones.
+- **Options considered:** list depth first so indentation shows nesting (a cut-short listing would then lose whole outer sections); leave it as it was (Settings has several buttons all named "Show more settings", and an agent could not tell which belongs to which group).
+- **Reason:** Agents pick controls by where they sit, and Settings, Office and most XAML apps repeat control names.
+
+### D45. Three fixes from the real agent run
+
+- **Date:** 2026-11-22
+- **Status:** proposed
+- **By:** Claude
+- **Decision:** `ui_find` matches all or part of a name, ignoring case, and lists exact matches first. `ui_read` returns a checkbox's or switch's state ("on", "off" or "mixed") in `control.state`. `ui_toggle` with `on` set to the state the switch already has changes nothing, is audited as a read, and asks the user nothing.
+- **Options considered:** leave them for a later phase (each one cost the agent extra calls, and the third showed the user a confirmation for a change that did not happen).
+- **Reason:** Claude Code reported all three in the Phase 1 gate run. The Settings switch is named "Show seconds in system tray clock (uses more power)", so an exact match on the name people use found nothing.

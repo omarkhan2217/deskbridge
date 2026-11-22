@@ -14,13 +14,13 @@ sealed class BrokerHarness : IAsyncDisposable
 {
     readonly string pipeName;
     readonly CancellationTokenSource stop = new();
-    readonly UiaWorker worker;
+    readonly ToolServices services;
     readonly List<IDisposable> raw = new();
 
-    BrokerHarness(string pipeName, BrokerHost host, UiaWorker worker)
+    BrokerHarness(string pipeName, BrokerHost host, ToolServices services)
     {
         this.pipeName = pipeName;
-        this.worker = worker;
+        this.services = services;
         Host = host;
         Run = host.RunAsync(stop.Token);
     }
@@ -32,17 +32,17 @@ sealed class BrokerHarness : IAsyncDisposable
     public static Task<BrokerHarness> StartAsync(TimeSpan? idleExit = null)
     {
         var name = "deskbridge-test-" + Guid.NewGuid().ToString("N");
-        var worker = new UiaWorker();
+        var services = TestServices.AllowAll();
         var host = new BrokerHost(
             new BrokerOptions(name, idleExit ?? TimeSpan.FromMinutes(10), TimeSpan.FromSeconds(5)),
-            new ToolServices(new UiaReader(worker)));
-        return Task.FromResult(new BrokerHarness(name, host, worker));
+            services);
+        return Task.FromResult(new BrokerHarness(name, host, services));
     }
 
     public async Task<ConnectedClient> ConnectAsync()
     {
         var pipe = await ConnectRawPipeAsync(track: false);
-        HelloFrame.Write(pipe, new ClientHello(1, HelloModes.Classic, new ClientProcess(Environment.ProcessId, null, "tests")));
+        HelloFrame.Write(pipe, new ClientHello(1, HelloModes.Classic, TestServices.TestClient));
         var client = await McpClient.CreateAsync(new StreamClientTransport(pipe, pipe));
         return new ConnectedClient(client, pipe);
     }
@@ -85,7 +85,7 @@ sealed class BrokerHarness : IAsyncDisposable
         }
 
         await Host.DisposeAsync();
-        worker.Dispose();
+        services.Dispose();
         stop.Dispose();
     }
 

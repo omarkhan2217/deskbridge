@@ -83,7 +83,7 @@ public static unsafe class WindowLister
         return title.Length > 0;
     }
 
-    static string Title(nint hwnd)
+    public static string Title(nint hwnd)
     {
         var length = User32.GetWindowTextLength(hwnd);
         if (length <= 0)

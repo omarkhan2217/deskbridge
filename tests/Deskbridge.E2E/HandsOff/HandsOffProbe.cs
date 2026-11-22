@@ -92,6 +92,29 @@ public static class HandsOffProbe
         }
     }
 
+    /// <summary>
+    /// For actions that must not run twice (a press, a rename): waits for a quiet moment, runs once, and fails
+    /// as inconclusive if the user gave input meanwhile instead of repeating the action.
+    /// </summary>
+    public static async Task<T> AssertUntouchedOnceAsync<T>(Func<Task<T>> action)
+    {
+        WaitForQuiet();
+        var before = Capture();
+        var result = await action();
+        var comparison = Compare(before, Capture());
+        if (comparison.UserInterfered)
+        {
+            throw new XunitException("Inconclusive: input arrived during a one-time action (the user, or injected input). Run the test again with hands off.");
+        }
+
+        if (comparison.Changes.Count > 0)
+        {
+            throw new XunitException("The action touched the user: " + string.Join("; ", comparison.Changes));
+        }
+
+        return result;
+    }
+
     static void WaitForQuiet()
     {
         var deadline = DateTime.UtcNow + QuietWaitLimit;

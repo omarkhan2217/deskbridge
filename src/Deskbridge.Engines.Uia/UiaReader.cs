@@ -91,6 +91,7 @@ public sealed class UiaReader(UiaWorker worker)
             element.Properties.AutomationId.ValueOrDefault,
             element.Properties.ControlType.ValueOrDefault.ToString(),
             text,
-            truncated);
+            truncated,
+            element.Patterns.Toggle.TryGetPattern(out var toggle) ? UiaActions.State(toggle.ToggleState.ValueOrDefault) : null);
     }
 }

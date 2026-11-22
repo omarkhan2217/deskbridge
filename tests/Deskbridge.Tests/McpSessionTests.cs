@@ -6,12 +6,32 @@ public class McpSessionTests
 {
     static readonly Dictionary<string, object?> NoArgs = new();
 
+    public static readonly string[] CoreTools =
+    [
+        "apps_launch", "apps_list_installed", "apps_list_running",
+        "clipboard_read", "clipboard_write",
+        "files_delete", "files_move", "files_read", "files_search", "files_write",
+        "media_control", "media_now_playing", "notify_show", "settings_open",
+        "ui_find", "ui_press", "ui_read", "ui_scroll", "ui_select", "ui_set_text", "ui_toggle", "ui_tree",
+        "volume_set", "windows_describe", "windows_list",
+    ];
+
     [Fact]
-    public async Task Lists_exactly_the_phase_0_tools()
+    public async Task Lists_the_core_tools()
     {
         await using var h = await SessionHarness.StartAsync();
         var names = (await h.Client.ListToolsAsync()).Select(t => t.Name).Order().ToArray();
-        Assert.Equal(new[] { "ui_read", "windows_list" }, names);
+        Assert.Equal(CoreTools.Order(), names);
+    }
+
+    [Fact]
+    public async Task Each_tool_declares_its_effect()
+    {
+        await using var h = await SessionHarness.StartAsync();
+        var tools = (await h.Client.ListToolsAsync()).ToDictionary(t => t.Name, t => t.ProtocolTool.Annotations);
+        Assert.True(tools["files_read"]?.ReadOnlyHint);
+        Assert.False(tools["files_write"]?.ReadOnlyHint);
+        Assert.True(tools["files_delete"]?.DestructiveHint);
     }
 
     [Fact]
@@ -68,12 +88,25 @@ public class McpSessionTests
     }
 
     [Fact]
-    public async Task Tools_say_they_are_read_only()
+    public async Task Off_app_is_refused_with_its_reason()
     {
-        await using var h = await SessionHarness.StartAsync();
-        foreach (var t in await h.Client.ListToolsAsync())
-        {
-            Assert.True(t.ProtocolTool.Annotations?.ReadOnlyHint, t.Name);
-        }
+        var services = TestServices.RealPolicy(out var config);
+        config.Update(c => c.WithLevel(Deskbridge.Core.Apps.AppId.Windows, Deskbridge.Core.Policy.PermissionLevel.Off));
+        await using var h = await SessionHarness.StartAsync(services: services);
+        var result = await h.Client.CallToolAsync("windows_list", NoArgs);
+        Assert.True(result.IsError);
+        Assert.Equal("Deskbridge is off for Windows and apps list. Change it in Deskbridge settings.", SessionHarness.Text(result));
     }
+
+    [Fact]
+    public async Task Every_call_writes_one_audit_line()
+    {
+        var audit = new TestServices.MemoryAudit();
+        await using var h = await SessionHarness.StartAsync(services: TestServices.RealPolicy(out _, audit));
+        await h.Client.CallToolAsync("windows_list", NoArgs);
+        var entry = Assert.Single(audit.Entries);
+        Assert.Equal(("windows_list", "allowed", "ok", "tests"), (entry.Tool, entry.Decision, entry.Result, entry.Client));
+    }
+
+
 }

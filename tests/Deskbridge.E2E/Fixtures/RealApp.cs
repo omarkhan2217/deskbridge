@@ -55,7 +55,14 @@ public sealed class RealApp : IDisposable
     public void MinimizeAndActivateNext()
     {
         NativeTest.ShowWindow(Handle, SwMinimize);
-        Thread.Sleep(500);
+
+        // Windows hands activation to the next window after the minimize animation, not at once.
+        for (var waited = 0; IsForeground && waited < 2_000; waited += 100)
+        {
+            Thread.Sleep(100);
+        }
+
+        Thread.Sleep(300);
     }
 
     public bool IsForeground => NativeTest.GetForegroundWindow() == Handle;

@@ -39,6 +39,34 @@ public class RelayTests
     [Fact]
     public void Unknown_process_has_no_parent() => Assert.Null(ParentProcess.Get(-1));
 
+    [Fact]
+    public void A_shell_between_the_client_and_the_relay_is_skipped()
+    {
+        // MCP clients often start servers through "cmd /c". The client is whoever started the shell.
+        using var shell = System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo("cmd.exe", "/c ping -n 6 127.0.0.1 >nul")
+        {
+            UseShellExecute = false,
+            CreateNoWindow = true,
+        })!;
+        try
+        {
+            int? child = null;
+            for (var i = 0; i < 50 && child is null; i++)
+            {
+                Thread.Sleep(100);
+                child = ParentProcess.ChildrenOf(shell.Id).FirstOrDefault() is var c && c != 0 ? c : null;
+            }
+
+            Assert.NotNull(child);
+            var client = ParentProcess.Get(child!.Value);
+            Assert.Equal(Environment.ProcessId, client!.Pid);
+        }
+        finally
+        {
+            shell.Kill(entireProcessTree: true);
+        }
+    }
+
     /// <summary>Records what is written; returns <c>replyWith</c> once on read, then end of stream.</summary>
     sealed class LoopbackStream(byte[] replyWith) : Stream
     {
