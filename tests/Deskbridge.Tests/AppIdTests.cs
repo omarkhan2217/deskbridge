@@ -15,8 +15,11 @@ public class AppIdTests
             ["system.files", "system.clipboard", "system.media", "system.settings", "system.windows", "system.notifications"],
             new[] { AppId.Files, AppId.Clipboard, AppId.Media, AppId.Settings, AppId.Windows, AppId.Notifications }.Select(a => a.Key));
 
+    // GitHub's Windows runners run elevated and a developer's PC usually does not, so the answer is
+    // checked against .NET's own view of this process rather than assumed.
     [Fact]
-    public void This_process_is_not_elevated() => Assert.False(ProcessFacts.IsElevated(Environment.ProcessId));
+    public void Elevation_of_this_process_matches_what_dotnet_reports() =>
+        Assert.Equal(Environment.IsPrivilegedProcess, ProcessFacts.IsElevated(Environment.ProcessId));
 
     [Fact]
     public void This_process_has_an_image_path() =>
