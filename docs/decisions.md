@@ -49,18 +49,18 @@ Every decision about Deskbridge, oldest first. An entry is never deleted or rewr
 | D35 | 2026-11-22 | Commits use the GitHub noreply address | accepted | owner |
 | D36 | 2026-11-22 | "Allow and remember" lasts until the user revokes it | accepted | owner |
 | D37 | 2026-11-22 | The Phase 1 gate toggles "Show seconds in system tray clock" | accepted | owner |
-| D38 | 2026-11-22 | Phase 1 fixes cold start and measures the relay by private bytes | proposed | Claude |
-| D39 | 2026-11-22 | Launch tools try not to take focus, report whether they did, and the confirmation says so | proposed | Claude |
-| D40 | 2026-11-22 | Tests use their own config and log folder | proposed | Claude |
-| D41 | 2026-11-22 | README, LICENSE and the code signing policy arrive with Phase 1; the SignPath application follows | proposed | Claude |
-| D42 | 2026-11-22 | The gate finds "Show seconds" under Date & time on current Windows 11 builds (supersedes D37's location) | proposed | Claude |
-| D43 | 2026-11-22 | UI actions check the control can do the action before asking; window messages go only to buttons and edit boxes | proposed | Claude |
-| D44 | 2026-11-22 | `ui_tree` nodes name their parent | proposed | Claude |
-| D45 | 2026-11-22 | After the real agent run: `ui_find` matches part of a name, `ui_read` reports a switch's state, and a switch already as asked is not asked about | proposed | Claude |
+| D38 | 2026-11-22 | Phase 1 fixes cold start and measures the relay by private bytes | accepted | Claude, approved by owner |
+| D39 | 2026-11-22 | Launch tools try not to take focus, report whether they did, and the confirmation says so | accepted | Claude, approved by owner |
+| D40 | 2026-11-22 | Tests use their own config and log folder | accepted | Claude, approved by owner |
+| D41 | 2026-11-22 | README, LICENSE and the code signing policy arrive with Phase 1; the SignPath application follows | accepted | Claude, approved by owner |
+| D42 | 2026-11-22 | The gate finds "Show seconds" under Date & time on current Windows 11 builds (supersedes D37's location) | accepted | Claude, approved by owner |
+| D43 | 2026-11-22 | UI actions check the control can do the action before asking; window messages go only to buttons and edit boxes | accepted | Claude, approved by owner |
+| D44 | 2026-11-22 | `ui_tree` nodes name their parent | accepted | Claude, approved by owner |
+| D45 | 2026-11-22 | After the real agent run: `ui_find` matches part of a name, `ui_read` reports a switch's state, and a switch already as asked is not asked about | accepted | Claude, approved by owner |
 | D46 | 2026-11-22 | Move the repo to github.com/omarkhan2217/deskbridge by transfer (supersedes D34's location) | accepted | owner |
 | D47 | 2026-11-22 | Phase 1 lands as one code commit plus one docs commit instead of one commit per task | accepted | Claude, on the owner's request to push |
-| D48 | 2026-11-22 | Secret-file checks run on the real path, refuse alternate data streams, and cover every folder in the path | proposed | Claude |
-| D49 | 2026-11-22 | A press is judged destructive by the control's name, AutomationId and help text; a nameless button always asks | proposed | Claude |
+| D48 | 2026-11-22 | Secret-file checks run on the real path, refuse alternate data streams, and cover every folder in the path | accepted | Claude, approved by owner |
+| D49 | 2026-11-22 | A press is judged destructive by the control's name, AutomationId and help text; a nameless button always asks | accepted | Claude, approved by owner |
 
 ## Entries
 
@@ -384,7 +384,7 @@ Every decision about Deskbridge, oldest first. An entry is never deleted or rewr
 ### D38. Cold start and the relay memory measure
 
 - **Date:** 2026-11-22
-- **Status:** proposed
+- **Status:** accepted
 - **By:** Claude
 - **Decision:** Phase 1 publishes the broker ReadyToRun and creates the UI Automation worker on first use, then re-measures cold start. The relay's memory budget (under 10 MB) is checked against private bytes; the working set is still reported.
 - **Reason:** Phase 0 measured cold starts of 0.9 to 2.2 s, and the relay's 9.9 MB working set is mostly shared Windows code (its private memory is 3.2 MB).
@@ -392,7 +392,7 @@ Every decision about Deskbridge, oldest first. An entry is never deleted or rewr
 ### D39. Launch tools and focus
 
 - **Date:** 2026-11-22
-- **Status:** proposed
+- **Status:** accepted
 - **By:** Claude
 - **Decision:** `apps_launch` and `settings_open` start the app without activation (`SW_SHOWNOACTIVATE`) and from the broker, which never holds the foreground. Some apps (Settings and other Store apps) come to the front anyway, so their confirmation says the window may come to the front, and the result reports whether it did.
 - **Reason:** Opening an app is something the user asked for, but principle 1 says focus is never taken without asking.
@@ -400,14 +400,14 @@ Every decision about Deskbridge, oldest first. An entry is never deleted or rewr
 ### D40. Test isolation for config and logs
 
 - **Date:** 2026-11-22
-- **Status:** proposed
+- **Status:** accepted
 - **By:** Claude
 - **Decision:** `DESKBRIDGE_CONFIG_DIR` points the broker at a different folder for `config.json` and logs. Tests always set it, so they never read or change the user's real permissions.
 
 ### D41. Public repo files and SignPath
 
 - **Date:** 2026-11-22
-- **Status:** proposed
+- **Status:** accepted
 - **By:** Claude
 - **Decision:** `README.md`, `LICENSE` (MIT, "The Deskbridge authors") and `docs/code-signing-policy.md` are Phase 1 Task 0. They are committed with Phase 1 after the owner's review, and the owner applies to SignPath Foundation then.
 - **Reason:** `CLAUDE.md` rule 5 keeps unreviewed work out of commits. SignPath is needed by Phase 6, so applying after Phase 1 still leaves months for approval.
@@ -415,7 +415,7 @@ Every decision about Deskbridge, oldest first. An entry is never deleted or rewr
 ### D42. Where the gate finds the clock seconds switch
 
 - **Date:** 2026-11-22
-- **Status:** proposed
+- **Status:** accepted
 - **By:** Claude
 - **Decision:** The Phase 1 gate opens `ms-settings:dateandtime` and turns on "Show seconds in system tray clock" under Show time and date in the System tray > Show more settings. The setting is the one the owner chose in D37; only its place in Settings changes. This entry supersedes the location given in D37.
 - **Options considered:** keep the Taskbar behaviors page (the switch is no longer there on build 26200); try both pages (two Settings navigations during setup for no gain on the gate PC).
@@ -424,7 +424,7 @@ Every decision about Deskbridge, oldest first. An entry is never deleted or rewr
 ### D43. UI actions check before asking, and window messages are for buttons and edit boxes
 
 - **Date:** 2026-11-22
-- **Status:** proposed
+- **Status:** accepted
 - **By:** Claude
 - **Decision:** `ui_press`, `ui_toggle`, `ui_select` and `ui_set_text` first check what the control supports. If it cannot do the action, Deskbridge refuses with "There is no way to press this control without the mouse, so Deskbridge will not." and asks the user nothing. The window-message rung (`BM_CLICK`, `WM_SETTEXT`) is used only for a control with its own window whose class contains Button or Edit, or whose UI Automation type is Button or Edit.
 - **Options considered:** send window messages to any control with its own window (a text label counted as pressable, so the user was asked to approve a press that could not happen); ask first and refuse after (the user approves something that then fails).
@@ -433,7 +433,7 @@ Every decision about Deskbridge, oldest first. An entry is never deleted or rewr
 ### D44. Tree listings name each control's parent
 
 - **Date:** 2026-11-22
-- **Status:** proposed
+- **Status:** accepted
 - **By:** Claude
 - **Decision:** Each `ui_tree` node carries `parent`, the element_id of the control that holds it (null at the top). The listing stays outer controls first, so a listing cut short by `max_nodes` keeps the outer ones.
 - **Options considered:** list depth first so indentation shows nesting (a cut-short listing would then lose whole outer sections); leave it as it was (Settings has several buttons all named "Show more settings", and an agent could not tell which belongs to which group).
@@ -442,7 +442,7 @@ Every decision about Deskbridge, oldest first. An entry is never deleted or rewr
 ### D45. Three fixes from the real agent run
 
 - **Date:** 2026-11-22
-- **Status:** proposed
+- **Status:** accepted
 - **By:** Claude
 - **Decision:** `ui_find` matches all or part of a name, ignoring case, and lists exact matches first. `ui_read` returns a checkbox's or switch's state ("on", "off" or "mixed") in `control.state`. `ui_toggle` with `on` set to the state the switch already has changes nothing, is audited as a read, and asks the user nothing.
 - **Options considered:** leave them for a later phase (each one cost the agent extra calls, and the third showed the user a confirmation for a change that did not happen).
@@ -469,7 +469,7 @@ Every decision about Deskbridge, oldest first. An entry is never deleted or rewr
 ### D48. Secret files are checked on the real path
 
 - **Date:** 2026-11-22
-- **Status:** proposed
+- **Status:** accepted
 - **By:** Claude
 - **Decision:** The file tools refuse any path with a ':' after the drive (alternate data streams: `.env::$DATA` names the `.env` file's own content). The secret-file check runs on the path as given and on the path Windows resolves it to (8.3 short names expanded, links and junctions followed), and again on the file that actually opened before `files_read` returns anything. Every folder in the path is checked as well as the file name, so anything inside a `secrets` folder or Windows' `Credentials` folders is refused.
 - **Options considered:** check the file name only (bypassed by `.env::$DATA`, by short names such as `CREDEN~1.JSO`, and by a junction into a secrets folder); also block every folder named `.ssh` (it holds `known_hosts` and `config`, which agents legitimately read; the keys in it are caught by name).
@@ -478,7 +478,7 @@ Every decision about Deskbridge, oldest first. An entry is never deleted or rewr
 ### D49. What makes a press destructive
 
 - **Date:** 2026-11-22
-- **Status:** proposed
+- **Status:** accepted
 - **By:** Claude
 - **Decision:** A UI action is destructive when the control's name, its AutomationId read as words (`btnRemove_Item` reads "btn Remove Item") or its help text contains a destructive word, in any verb form ("Deletes", "Removing"). A button to be pressed with no name, no AutomationId and no help text is destructive as well. Destructive calls always ask and never offer "Allow and remember". The confirmation names the control by its name, or its AutomationId when it has no name.
 - **Options considered:** the name alone (an icon-only Delete button with only an AutomationId was an ordinary change, so a remembered grant could press it unasked); treat every nameless control as destructive for every tool (nameless scroll areas and text boxes are common, and scrolling or typing is not the risk).

@@ -26,7 +26,6 @@ A local MCP server for Windows. It lets any AI agent read and act in desktop app
 
 | Item | Who | Where |
 |---|---|---|
-| Approve or change the proposed decisions D38 to D45 | Owner | [decisions.md](decisions.md) |
 | Apply to SignPath Foundation for free code signing (needs multi-factor sign-in on GitHub) | Owner | D41, [code-signing-policy.md](code-signing-policy.md) |
 | Optional: one more real agent run of the Phase 1 gate on the build that has the D45 fixes | Owner decides | [phase-1-report.md](phases/phase-1-report.md) |
 | Six deferred minor findings | Whoever picks them up | "Deferred minor findings" in [phase-1-report.md](phases/phase-1-report.md) |
