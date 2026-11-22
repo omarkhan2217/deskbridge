@@ -9,7 +9,7 @@ A local MCP server for Windows. It lets any AI agent read and act in desktop app
 | Document | What it holds |
 |---|---|
 | [plan.md](plan.md) | The plan of record: product, architecture, principles, roadmap |
-| [decisions.md](decisions.md) | Every decision with its date, options, reason and who made it (D1 to D47) |
+| [decisions.md](decisions.md) | Every decision with its date, options, reason and who made it (D1 to D49) |
 | [phases/README.md](phases/README.md) | The seven phases, their gates, and what each needs from the owner |
 | [phases/phase-1-report.md](phases/phase-1-report.md) | The latest gate report: results, measurements, problems met, deferred findings |
 | [../CLAUDE.md](../CLAUDE.md) | The rules every session follows, for people and for Claude Code alike |

@@ -166,6 +166,20 @@ public sealed class PolicyEngineTests : IDisposable
     [InlineData("Save", false)]
     [InlineData("Notes", false)]
     [InlineData("Sender name", false)]
+    [InlineData("Removing old files", true)]
+    [InlineData("Payment details", false)]
     public void Destructive_word_on_a_control_makes_the_call_destructive(string controlName, bool destructive) =>
         Assert.Equal(destructive, DestructiveWords.IsDestructive(controlName));
+
+    [Theory]
+    [InlineData(null, "DeleteButton", null, true, true)]
+    [InlineData("", "btnRemove_Item", null, true, true)]
+    [InlineData(null, null, "Deletes the selected rows", true, true)]
+    [InlineData(null, null, null, true, true)]
+    [InlineData("", " ", "", true, true)]
+    [InlineData(null, null, null, false, false)]
+    [InlineData(null, "SaveButton", null, true, false)]
+    [InlineData("Save", "SaveButton", "Saves the file", true, false)]
+    public void A_control_is_judged_by_its_name_id_and_help_text(string? name, string? automationId, string? helpText, bool pressing, bool destructive) =>
+        Assert.Equal(destructive, DestructiveWords.IsDestructiveControl(name, automationId, helpText, pressing));
 }

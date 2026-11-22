@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
 
 namespace Deskbridge.Engines.Os.Native;
 
@@ -19,6 +20,16 @@ internal static unsafe partial class Kernel32
     [LibraryImport("kernel32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static partial bool CloseHandle(nint handle);
+
+    public const uint FILE_SHARE_ALL = 0x1 | 0x2 | 0x4; // read, write, delete
+    public const uint OPEN_EXISTING = 3;
+    public const uint FILE_FLAG_BACKUP_SEMANTICS = 0x02000000; // lets a folder be opened too
+
+    [LibraryImport("kernel32.dll", EntryPoint = "CreateFileW", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+    public static partial SafeFileHandle CreateFile(string name, uint access, uint share, nint security, uint disposition, uint flags, nint template);
+
+    [LibraryImport("kernel32.dll", EntryPoint = "GetFinalPathNameByHandleW", SetLastError = true)]
+    public static partial uint GetFinalPathNameByHandle(SafeHandle file, char* path, uint size, uint flags);
 
     [LibraryImport("advapi32.dll", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]

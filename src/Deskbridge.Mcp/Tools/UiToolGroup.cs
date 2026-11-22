@@ -128,14 +128,17 @@ public static class UiToolGroup
                     throw new NoWayToActException(need.Replace('_', ' '));
                 }
 
-                var name = info.Name ?? info.AutomationId ?? info.ControlType;
+                var name = new[] { info.Name, info.AutomationId }.FirstOrDefault(s => !string.IsNullOrWhiteSpace(s)) ?? info.ControlType;
                 if (unchanged?.Invoke(info) == true)
                 {
                     // Already as asked: nothing changes, so this is a read and nobody is asked.
                     return (new ToolCall(tool, target.App, ToolEffect.Read, $"Check '{name}' in {target.App.DisplayName}", TargetElevated: target.Elevated), (info, Unchanged: true));
                 }
 
-                var effect = DestructiveWords.IsDestructive(info.Name) ? ToolEffect.Destructive : ToolEffect.Change;
+                // A nameless button is destructive too: the user could not tell what they would be approving.
+                var effect = DestructiveWords.IsDestructiveControl(info.Name, info.AutomationId, info.HelpText, pressing: tool == "ui_press")
+                    ? ToolEffect.Destructive
+                    : ToolEffect.Change;
                 return (new ToolCall(tool, target.App, effect, $"{verb} '{name}' in {target.App.DisplayName}", content, TargetElevated: target.Elevated), (info, Unchanged: false));
             },
             async (state, token) =>

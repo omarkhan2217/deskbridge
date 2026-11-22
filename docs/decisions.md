@@ -59,6 +59,8 @@ Every decision about Deskbridge, oldest first. An entry is never deleted or rewr
 | D45 | 2026-11-22 | After the real agent run: `ui_find` matches part of a name, `ui_read` reports a switch's state, and a switch already as asked is not asked about | proposed | Claude |
 | D46 | 2026-11-22 | Move the repo to github.com/omarkhan2217/deskbridge by transfer (supersedes D34's location) | accepted | owner |
 | D47 | 2026-11-22 | Phase 1 lands as one code commit plus one docs commit instead of one commit per task | accepted | Claude, on the owner's request to push |
+| D48 | 2026-11-22 | Secret-file checks run on the real path, refuse alternate data streams, and cover every folder in the path | proposed | Claude |
+| D49 | 2026-11-22 | A press is judged destructive by the control's name, AutomationId and help text; a nameless button always asks | proposed | Claude |
 
 ## Entries
 
@@ -463,3 +465,21 @@ Every decision about Deskbridge, oldest first. An entry is never deleted or rewr
 - **Decision:** Phase 1 lands on `main` as one commit with the code, tests and Phase 1 docs, followed by one commit with the handover doc and the move to `omarkhan2217` (D46). This departs from the phase roadmap's "one commit per task" for this phase only.
 - **Options considered:** one commit per task (the 13 tasks share most files, so each commit would be a reconstruction that was never built or tested on its own).
 - **Reason:** Every task's tests ran during the phase and the whole suite passes on the final tree; a split that never existed adds commits that may not build.
+
+### D48. Secret files are checked on the real path
+
+- **Date:** 2026-11-22
+- **Status:** proposed
+- **By:** Claude
+- **Decision:** The file tools refuse any path with a ':' after the drive (alternate data streams: `.env::$DATA` names the `.env` file's own content). The secret-file check runs on the path as given and on the path Windows resolves it to (8.3 short names expanded, links and junctions followed), and again on the file that actually opened before `files_read` returns anything. Every folder in the path is checked as well as the file name, so anything inside a `secrets` folder or Windows' `Credentials` folders is refused.
+- **Options considered:** check the file name only (bypassed by `.env::$DATA`, by short names such as `CREDEN~1.JSO`, and by a junction into a secrets folder); also block every folder named `.ssh` (it holds `known_hosts` and `config`, which agents legitimately read; the keys in it are caught by name).
+- **Reason:** Found by an automated security review after the Phase 1 push. Deskbridge protects against agents being tricked, and a tricked agent can be told to use any of these forms. A folder whose name happens to contain "secret" is now refused too, which errs on the safe side.
+
+### D49. What makes a press destructive
+
+- **Date:** 2026-11-22
+- **Status:** proposed
+- **By:** Claude
+- **Decision:** A UI action is destructive when the control's name, its AutomationId read as words (`btnRemove_Item` reads "btn Remove Item") or its help text contains a destructive word, in any verb form ("Deletes", "Removing"). A button to be pressed with no name, no AutomationId and no help text is destructive as well. Destructive calls always ask and never offer "Allow and remember". The confirmation names the control by its name, or its AutomationId when it has no name.
+- **Options considered:** the name alone (an icon-only Delete button with only an AutomationId was an ordinary change, so a remembered grant could press it unasked); treat every nameless control as destructive for every tool (nameless scroll areas and text boxes are common, and scrolling or typing is not the risk).
+- **Reason:** Found by an automated security review after the Phase 1 push. Principle 2: destructive actions ask every time, and the user cannot approve a press they cannot identify.

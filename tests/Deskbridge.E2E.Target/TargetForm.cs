@@ -40,6 +40,11 @@ sealed class TargetForm : Form
         delete.Click += (_, _) => status.Text = "Deleted";
         Controls.Add(delete);
 
+        // An icon-only button: no text, so UI Automation sees no name, only its AutomationId.
+        var remove = new Button { Name = "RemoveItemButton", Text = "", Location = new Point(300, 145), Size = new Size(24, 24) };
+        remove.Click += (_, _) => status.Text = "Removed";
+        Controls.Add(remove);
+
         var sizes = new ListBox { Name = "SizeList", AccessibleName = "Size", Location = new Point(10, 185), Size = new Size(150, 60) };
         sizes.Items.AddRange(["Small", "Medium", "Large"]);
         Controls.Add(sizes);

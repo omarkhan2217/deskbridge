@@ -44,6 +44,9 @@ public sealed record ElementInfo(string ElementId, nint Window, string? Name, st
 
     /// <summary>For a checkbox or switch, whether it was on when found. Otherwise null. Filled in by DescribeAsync.</summary>
     public bool? IsOn { get; init; }
+
+    /// <summary>The app's help text for the control, used to tell whether pressing it is destructive. Filled in by DescribeAsync.</summary>
+    public string? HelpText { get; init; }
 }
 
 /// <summary>What an action did and which rung did it.</summary>

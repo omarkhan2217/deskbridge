@@ -34,6 +34,7 @@ public sealed class UiaActions(UiaWorker worker)
             {
                 Can = Capabilities(window, found),
                 IsOn = found.Patterns.Toggle.TryGetPattern(out var toggle) ? toggle.ToggleState.ValueOrDefault == ToggleState.On : null,
+                HelpText = found.Properties.HelpText.ValueOrDefault,
             };
         }, ct);
     }

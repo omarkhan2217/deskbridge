@@ -51,6 +51,11 @@ public static class FileTools
         }
 
         using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
+        if (RealPath.Final(stream.SafeFileHandle) is { } opened && SecretFiles.IsSecret(opened))
+        {
+            throw new SecretFileException(); // the file that actually opened, in case a link changed after the check
+        }
+
         var limit = Math.Clamp(maxBytes, 1, 10 * 1024 * 1024);
         var buffer = new byte[Math.Min(limit, stream.Length)];
         var read = stream.ReadAtLeast(buffer, buffer.Length, throwOnEndOfStream: false);
@@ -136,12 +141,20 @@ public static class FileTools
             throw new DeskbridgeException("Give a full path, like C:\\Users\\you\\Documents\\notes.txt.");
         }
 
-        return Path.GetFullPath(path);
+        var full = Path.GetFullPath(path);
+        var root = Path.GetPathRoot(full) ?? "";
+        if (full.AsSpan(root.Length).Contains(':'))
+        {
+            // "notes.txt:hidden" and ".env::$DATA" name streams inside a file; the second one is the file itself.
+            throw new DeskbridgeException("Deskbridge does not open alternate data streams: a path has no ':' after the drive.");
+        }
+
+        return full;
     }
 
     static void RefuseSecret(string path)
     {
-        if (SecretFiles.IsSecret(path))
+        if (SecretFiles.IsSecret(path) || SecretFiles.IsSecret(RealPath.Of(path)))
         {
             throw new SecretFileException();
         }

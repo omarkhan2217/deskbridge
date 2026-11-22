@@ -85,6 +85,22 @@ public sealed class UiToolPolicyTests : IAsyncDisposable
     }
 
     [Fact]
+    public async Task An_icon_button_whose_id_says_remove_always_asks_and_offers_no_remember()
+    {
+        using var app = TargetApp.Start("dbe2e-icon-" + Guid.NewGuid().ToString("N")[..8], "--text", "x");
+        config.Update(c => c.WithLevel(AppResolver.FromWindow(app.Handle), PermissionLevel.Act));
+        var mcp = await ConnectAsync();
+        presenter.Next.Enqueue(ConfirmationAnswer.Deny);
+
+        var result = await mcp.CallToolAsync("ui_press", new Dictionary<string, object?> { ["window"] = WindowHandles.Format(app.Handle), ["element"] = "RemoveItemButton" });
+
+        Assert.True(result.IsError);
+        var asked = Assert.Single(presenter.Asked);
+        Assert.Equal((ToolEffect.Destructive, false), (asked.Effect, asked.CanRemember));
+        Assert.Contains("'RemoveItemButton'", asked.Action);
+    }
+
+    [Fact]
     public async Task Allow_and_remember_stops_the_next_question_for_the_same_app()
     {
         using var app = TargetApp.Start("dbe2e-rem-" + Guid.NewGuid().ToString("N")[..8], "--text", "x");
