@@ -11,7 +11,7 @@ Only release builds of `deskbridge.exe` and `deskbridge-broker.exe`, built by Gi
 | Role | Who |
 |---|---|
 | Committers and reviewers | Members of the Deskbridge GitHub repository with write access |
-| Approvers (each signing request) | The project owner, [@alikhan866](https://github.com/alikhan866) |
+| Approvers (each signing request) | The project's maintainers, [@omarkhan2217](https://github.com/omarkhan2217) (repository owner) and [@alikhan866](https://github.com/alikhan866) |
 
 Every change reaches `main` through review by the owner. Every account with write access uses multi-factor authentication on GitHub and SignPath.
 

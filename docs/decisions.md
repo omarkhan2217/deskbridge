@@ -57,6 +57,8 @@ Every decision about Deskbridge, oldest first. An entry is never deleted or rewr
 | D43 | 2026-11-22 | UI actions check the control can do the action before asking; window messages go only to buttons and edit boxes | proposed | Claude |
 | D44 | 2026-11-22 | `ui_tree` nodes name their parent | proposed | Claude |
 | D45 | 2026-11-22 | After the real agent run: `ui_find` matches part of a name, `ui_read` reports a switch's state, and a switch already as asked is not asked about | proposed | Claude |
+| D46 | 2026-11-22 | Move the repo to github.com/omarkhan2217/deskbridge by transfer (supersedes D34's location) | accepted | owner |
+| D47 | 2026-11-22 | Phase 1 lands as one code commit plus one docs commit instead of one commit per task | accepted | Claude, on the owner's request to push |
 
 ## Entries
 
@@ -443,3 +445,21 @@ Every decision about Deskbridge, oldest first. An entry is never deleted or rewr
 - **Decision:** `ui_find` matches all or part of a name, ignoring case, and lists exact matches first. `ui_read` returns a checkbox's or switch's state ("on", "off" or "mixed") in `control.state`. `ui_toggle` with `on` set to the state the switch already has changes nothing, is audited as a read, and asks the user nothing.
 - **Options considered:** leave them for a later phase (each one cost the agent extra calls, and the third showed the user a confirmation for a change that did not happen).
 - **Reason:** Claude Code reported all three in the Phase 1 gate run. The Settings switch is named "Show seconds in system tray clock (uses more power)", so an exact match on the name people use found nothing.
+
+### D46. The repo moves to omarkhan2217
+
+- **Date:** 2026-11-22
+- **Status:** accepted
+- **By:** owner
+- **Decision:** The repo moves from `github.com/alikhan866/deskbridge` to `github.com/omarkhan2217/deskbridge` through GitHub's transfer, so `omarkhan2217` owns it and can invite people. This entry supersedes the location in D34; the repo stays public. Commits keep the noreply address from D35.
+- **Options considered:** add `omarkhan2217` as a collaborator (on a personal-account repo only the owner can invite people); delete the repo and create it again under `omarkhan2217` (loses the CI history and the old URL, and cannot be undone); a new organization with both accounts as owners (more setup for the same result today).
+- **Reason:** The owner wants `omarkhan2217` to be a member who can invite people. A transfer keeps the history, CI runs and settings, and GitHub redirects the old URL.
+
+### D47. How Phase 1 is committed
+
+- **Date:** 2026-11-22
+- **Status:** accepted
+- **By:** Claude, on the owner's request to push the current code
+- **Decision:** Phase 1 lands on `main` as one commit with the code, tests and Phase 1 docs, followed by one commit with the handover doc and the move to `omarkhan2217` (D46). This departs from the phase roadmap's "one commit per task" for this phase only.
+- **Options considered:** one commit per task (the 13 tasks share most files, so each commit would be a reconstruction that was never built or tested on its own).
+- **Reason:** Every task's tests ran during the phase and the whole suite passes on the final tree; a split that never existed adds commits that may not build.

@@ -4,6 +4,8 @@ A local MCP server for Windows that lets AI agents read and act in desktop apps 
 
 **Status:** early development. Not ready for use. The plan is in [docs/plan.md](docs/plan.md) and progress by phase is in [docs/phases/](docs/phases/README.md).
 
+Taking over or joining the project: start with [docs/handover.md](docs/handover.md).
+
 ## The rule it is built around
 
 Your AI works in your apps while you keep working. Deskbridge reaches each app its own way first (its COM interface, an extension, its command line, its own MCP server), then through UI Automation patterns, then through messages sent to one window. It never moves the mouse and never types into the window you are using. A test checks the cursor position, the foreground window and the keyboard focus around every action.
